@@ -1,3 +1,4 @@
+PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:$PATH"
 DIR="/Users/kckern/Dropbox/Backups/Code/Aplexa"
 cd $DIR
 /usr/local/bin/tree ~/.ssh
