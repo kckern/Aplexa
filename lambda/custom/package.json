@@ -1,0 +1,24 @@
+{
+  "name": "Plex API Alexa Processor",
+  "version": "1.0.0",
+  "description": "Play plex music from alexa",
+  "main": "index.js",
+  "keywords": [
+    "alexa",
+    "skill",
+    "plex",
+    "audio streaming"
+  ],
+  "author": "kckern.com",
+  "license": "See license in ../LICENSE.txt",
+  "dependencies": {
+    "@aptoma/lambda-papertrail-logger": "^1.1.0",
+    "alexa-sdk": "^1.0.25",
+    "dynasty": "^0.3.9",
+    "npm": "^6.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skilltemplates/audio-stream-starter-alexa.git"
+  }
+}

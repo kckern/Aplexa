@@ -1,0 +1,75 @@
+{
+  "manifest": {
+    "publishingInformation": {
+      "locales": {
+        "en-US": {
+          "summary": "An unofficial audio streaming interface for your Plex music libraries",
+          "examplePhrases": [
+            "Alexa, tell media center to play 'Uptown Girl'",
+            "Alexa, ask media center for something by Adele",
+            "Alexa, tell media center to play some Jazz music"
+          ],
+          "keywords": [
+            "audio streaming",
+            "plex playlists",
+            "home library"
+          ],
+          "name": "Audio Streaming Media Center",
+          "description": "An unofficial audio streaming interface for your Plex music libraries",
+          "smallIconUri": "https://i.imgur.com/ink8rqC.png",
+          "largeIconUri": "https://i.imgur.com/RBYgmuN.png"
+        },
+        "en-GB": {
+          "summary": "An unofficial audio streaming interface for your Plex music libraries",
+          "examplePhrases": [
+            "Alexa, tell media center to play 'Uptown Girl'",
+            "Alexa, ask media center for something by Adele",
+            "Alexa, tell media center to play some Jazz music"
+          ],
+          "keywords": [
+            "audio streaming",
+            "plex playlists",
+            "home library"
+          ],
+          "name": "Audio Streaming Media Center",
+          "description": "An unofficial audio streaming interface for your Plex music libraries",
+          "smallIconUri": "https://i.imgur.com/ink8rqC.png",
+          "largeIconUri": "https://i.imgur.com/RBYgmuN.png"
+        }
+      },
+      "isAvailableWorldwide": true,
+      "testingInstructions": "No special instructions",
+      "category": "STREAMING_SERVICE",
+      "distributionCountries": []
+    },
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "sourceDir": "lambda/custom"
+        },
+        "interfaces": [
+          {
+            "type": "AUDIO_PLAYER"
+          }
+        ]
+      }
+    },
+    "manifestVersion": "1.0",
+    "permissions": [],
+    "privacyAndCompliance": {
+      "allowsPurchases": false,
+      "isExportCompliant": true,
+      "containsAds": false,
+      "isChildDirected": false,
+      "usesPersonalInfo": false,
+      "locales": {
+          "en-US": {
+              "privacyPolicyUrl": "http://kckern.com/privacy.html"
+          },
+          "en-GB": {
+              "privacyPolicyUrl": "http://kckern.com/privacy.html"
+          }
+      }
+    }
+  }
+}
