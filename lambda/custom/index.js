@@ -309,9 +309,12 @@ var audioEventHandlers = {
 		if(this.event.context.AudioPlayer.offsetInMilliseconds===0) {
 
 			log(" !!! Force Play Stream Again",null);
-			return playQueue(this);
+			app.state.position++;
+			this.emit('AMAZON.PreviousIntent');
 			
 		}
+		else
+		{
 
 		if(needsLoadState(null,this.event.context.System.user.accessToken)) return plexAppState().find(this.event.context.System.user.accessToken).then(function(result) {
 			if(result === undefined) {
@@ -344,6 +347,7 @@ var audioEventHandlers = {
 		log(app.state.queue[app.state.position]['track']+": "+app.state.queue[app.state.position]['url'],null);
 		this.response.audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], app.state.queue[app.state.position]['url'], null, 0);
 		this.emit(':responseReady');
+		}
 	},
 	'PlaybackFailed': function() {
 		this.response.speak("Playback Failed");
