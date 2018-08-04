@@ -304,6 +304,7 @@ var audioEventHandlers = {
 	},
 	'PlaybackNearlyFinished': function() {
 
+		log("PlaybackNearlyFinished ("+this.event.context.AudioPlayer.offsetInMilliseconds+") ",null);
 		if(this.event.context.AudioPlayer.offsetInMilliseconds>3000) {
 
 		if(needsLoadState(null,this.event.context.System.user.accessToken)) return plexAppState().find(this.event.context.System.user.accessToken).then(function(result) {
