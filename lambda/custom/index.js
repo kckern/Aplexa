@@ -309,7 +309,7 @@ var audioEventHandlers = {
 		if(this.event.context.AudioPlayer.offsetInMilliseconds===0) {
 
 			log(" !!! Force Play Stream Again",null);
-			return this.emit('PlayStream');
+			return playQueue(this);
 			
 		}
 
