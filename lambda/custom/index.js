@@ -150,7 +150,7 @@ var handlers = {
 	'AMAZON.NextIntent': function() {
 		 if(needsLoadConfig(this)) return loadConfigs(this, "AMAZON.NextIntent");
 		if(needsLoadState(this)) return loadState(this, "AMAZON.NextIntent");
-		log("NEXT");
+		log("NextIntent ("+this.event.context.AudioPlayer.offsetInMilliseconds+") ",null);
 		app.state.position++;
 		if(typeof app.state.queue[app.state.position] === "undefined") {
 			this.emit('AMAZON.StartOverIntent');
@@ -284,6 +284,7 @@ var audioEventHandlers = {
 		this.emit(':responseReady');
 	},
 	'PlaybackFinished': function() {
+		log("PlaybackFinished ("+this.event.context.AudioPlayer.offsetInMilliseconds+") ",null);
 		this.response.speak("Playback Finished");
 		this.emit(':responseReady');
 	},
