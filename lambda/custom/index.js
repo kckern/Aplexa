@@ -303,6 +303,9 @@ var audioEventHandlers = {
 		this.emit(':responseReady');
 	},
 	'PlaybackNearlyFinished': function() {
+
+		if(this.event.context.AudioPlayer.offsetInMilliseconds>3000) {
+
 		if(needsLoadState(null,this.event.context.System.user.accessToken)) return plexAppState().find(this.event.context.System.user.accessToken).then(function(result) {
 			if(result === undefined) {
 				this.response.speak("Could not load the app state. ");
@@ -333,6 +336,7 @@ var audioEventHandlers = {
 		});
 		log(app.state.queue[app.state.position]['track']+": "+app.state.queue[app.state.position]['url'],null);
 		this.response.audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], app.state.queue[app.state.position]['url'], null, 0);
+		}
 		this.emit(':responseReady');
 	},
 	'PlaybackFailed': function() {
