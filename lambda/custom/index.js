@@ -309,8 +309,8 @@ var audioEventHandlers = {
 		if(this.event.context.AudioPlayer.offsetInMilliseconds===0) {
 
 			log(" !!! Force Play Stream Again",null);
-			app.state.position++;
-			this.emit('AMAZON.PreviousIntent');
+			this.response.audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], app.state.queue[app.state.position]['url'], null, 0);
+			this.emit(':responseReady');
 			
 		}
 		else
