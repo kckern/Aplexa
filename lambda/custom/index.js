@@ -306,7 +306,7 @@ var audioEventHandlers = {
 	'PlaybackNearlyFinished': function() {
 
 		log("PlaybackNearlyFinished ("+this.event.context.AudioPlayer.offsetInMilliseconds+") ",null);
-		if(this.event.context.AudioPlayer.offsetInMilliseconds===0) {
+		if(this.event.context.AudioPlayer.offsetInMilliseconds<3000) {
 
 			log(" !!! Force Play Stream Again",null);
 			this.response.audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], app.state.queue[app.state.position]['url'], null, 0);
