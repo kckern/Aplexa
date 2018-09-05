@@ -305,7 +305,7 @@ var audioEventHandlers = {
 	},
 	'PlaybackNearlyFinished': function() {
 
-		if(this.event.context.AudioPlayer.offsetInMilliseconds<3000) {
+		if(this.event.context.AudioPlayer.offsetInMilliseconds<3000 && false) {
 
 		log("PlaybackNearlyFinished Failed ("+this.event.context.AudioPlayer.offsetInMilliseconds+") ",null);
 			return false;
