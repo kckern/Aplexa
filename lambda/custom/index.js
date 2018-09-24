@@ -552,7 +552,7 @@ function loadConfigs(controller, next ,loadStateToo) {
 exports.handler = (event, context, callback) => {
   var alexa = Alexa.handler(event, context, callback);
   alexa.registerHandlers(handlers, audioEventHandlers);
-  alexa.appId = 'amzn1.ask.skill.40f6df28-6fd9-4945-a1f5-50f09b5afbd9';
+  alexa.appId = 'amzn1.ask.skill.549fdcb5-c2a5-40b8-84a5-54062e84da1f';
   alexa.execute();
 };
 //Helper FUnctions
