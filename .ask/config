@@ -1,42 +1,18 @@
 {
   "deploy_settings": {
     "default": {
-      "skill_id": "amzn1.ask.skill.40f6df28-6fd9-4945-a1f5-50f09b5afbd9",
+      "skill_id": "",
       "was_cloned": false,
       "merge": {
-        "manifest": {
+        "skillManifest": {
           "apis": {
             "custom": {
               "endpoint": {
-                "uri": "ask-custom-audio-stream-starter-default"
+                "uri": "aplexa"
               }
             }
           }
         }
-      },
-      "resources": {
-        "manifest": {
-          "eTag": "9300726769323f95944163f4bfa45653"
-        },
-        "interactionModel": {
-          "en-GB": {
-            "eTag": "3a06725bdaa737969ea075aa5c5d1806"
-          },
-          "en-US": {
-            "eTag": "fdfbf32b59fb8564d4cf9cdbe52fbfc4"
-          }
-        },
-        "lambda": [
-          {
-            "arn": "arn:aws:lambda:us-east-1:983925251193:function:ask-custom-audio-stream-starter-default",
-            "functionName": "arn:aws:lambda:us-east-1:983925251193:function:ask-custom-audio-stream-starter-default",
-            "awsRegion": "us-east-1",
-            "alexaUsage": [
-              "custom/default"
-            ],
-            "revisionId": "d70d2cbe-11c5-4a15-8c3a-c5116247cfb4"
-          }
-        ]
       }
     }
   }
