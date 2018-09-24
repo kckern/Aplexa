@@ -1,4 +1,5 @@
 'use strict';
+var md5 = require('md5');
 var dynasty = require('dynasty')({});
 var Alexa = require('alexa-sdk');
 var https = require('https');
@@ -330,7 +331,7 @@ var audioEventHandlers = {
 				userID: this.event.context.System.user.accessToken,
 				Data: JSON.stringify(app.state)
 			});
-			this.response.audioPlayerPlay('ENQUEUE', app.state.queue[app.state.position]['url'], app.state.queue[app.state.position]['url'], null, 0);
+			this.response.audioPlayerPlay('ENQUEUE', app.state.queue[app.state.position]['url'], md5(app.state.queue[app.state.position]['url']), null, 0);
 			this.emit(':responseReady');
 		}.bind(this));
 		if(app.state.loop === false) app.state.position++;
@@ -343,7 +344,7 @@ var audioEventHandlers = {
 			Data: JSON.stringify(app.state)
 		});
 		log(app.state.queue[app.state.position]['track']+": "+app.state.queue[app.state.position]['url'],null);
-		this.response.audioPlayerPlay('ENQUEUE', app.state.queue[app.state.position]['url'], app.state.queue[app.state.position]['url'], null, 0);
+		this.response.audioPlayerPlay('ENQUEUE', app.state.queue[app.state.position]['url'], md5(app.state.queue[app.state.position]['url']), null, 0);
 		this.emit(':responseReady');
 		}
 	},
