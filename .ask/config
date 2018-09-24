@@ -29,12 +29,12 @@
         "lambda": [
           {
             "arn": "arn:aws:lambda:us-east-1:983925251193:function:aplexa",
-            "functionName": "aplexa",
+            "functionName": "arn:aws:lambda:us-east-1:983925251193:function:aplexa",
             "awsRegion": "us-east-1",
             "alexaUsage": [
               "custom/default"
             ],
-            "revisionId": "48c02506-e8bf-4451-8e03-52f5c137f6bb"
+            "revisionId": "340291e5-5259-45f1-acbb-097c59a6b440"
           }
         ]
       }
