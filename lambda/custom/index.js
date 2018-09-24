@@ -285,39 +285,8 @@ var audioEventHandlers = {
 	},
 	'PlaybackFinished': function() {
 		log("PlaybackFinished ("+this.event.context.AudioPlayer.offsetInMilliseconds+") ",null);
-		if(needsLoadState(null,this.event.context.System.user.accessToken)) return plexAppState().find(this.event.context.System.user.accessToken).then(function(result) {
-			if(result === undefined) {
-				this.response.speak("Could not load the app state. ");
-				this.emit(':responseReady');
-				return false;
-			}
-			app.state = JSON.parse(result['Data']);
-			if(app.state.loop === false) app.state.position++;
-			if(typeof app.state.queue[app.state.position] === "undefined") {
-				this.emit('SessionEndedRequest');
-				return false;
-			}
-			plexAppState().insert({
-				userID: this.event.context.System.user.accessToken,
-				Data: JSON.stringify(app.state)
-			});
-			this.response.audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], app.state.queue[app.state.position]['url'], null, 0);
-			this.emit(':responseReady');
-		}.bind(this));
-		if(app.state.loop === false) app.state.position++;
-		if(typeof app.state.queue[app.state.position] === "undefined") {
-			this.emit('SessionEndedRequest');
-			return false;
-		}
-		plexAppState().insert({
-			userID: this.event.context.System.user.accessToken,
-			Data: JSON.stringify(app.state)
-		});
-		log(app.state.queue[app.state.position]['track']+": "+app.state.queue[app.state.position]['url'],null);
-		this.response.audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], app.state.queue[app.state.position]['url'], null, 0);
+		this.response.speak("Playback Finished");
 		this.emit(':responseReady');
-
-
 	},
 	'PlaybackStopped': function() {
 		this.emit(':responseReady');
@@ -335,8 +304,6 @@ var audioEventHandlers = {
 		this.emit(':responseReady');
 	},
 	'PlaybackNearlyFinished': function() {
-
-		return false;
 
 		if(this.event.context.AudioPlayer.offsetInMilliseconds<3000 && false) {
 
@@ -363,7 +330,7 @@ var audioEventHandlers = {
 				userID: this.event.context.System.user.accessToken,
 				Data: JSON.stringify(app.state)
 			});
-			this.response.audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], app.state.queue[app.state.position]['url'], null, 0);
+			this.response.audioPlayerPlay('ENQUEUE', app.state.queue[app.state.position]['url'], app.state.queue[app.state.position]['url'], null, 0);
 			this.emit(':responseReady');
 		}.bind(this));
 		if(app.state.loop === false) app.state.position++;
@@ -376,7 +343,7 @@ var audioEventHandlers = {
 			Data: JSON.stringify(app.state)
 		});
 		log(app.state.queue[app.state.position]['track']+": "+app.state.queue[app.state.position]['url'],null);
-		this.response.audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], app.state.queue[app.state.position]['url'], null, 0);
+		this.response.audioPlayerPlay('ENQUEUE', app.state.queue[app.state.position]['url'], app.state.queue[app.state.position]['url'], null, 0);
 		this.emit(':responseReady');
 		}
 	},
