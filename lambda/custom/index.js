@@ -384,7 +384,16 @@ var audioEventHandlers = {
 		this.emit(':responseReady');
 	}
 }
-
+function shuffle(a) {
+    var j, x, i;
+    for (i = a.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = a[i];
+        a[i] = a[j];
+        a[j] = x;
+    }
+    return a;
+}
 
 
 function playQueue(controller) {
@@ -398,7 +407,8 @@ function playQueue(controller) {
     controller.emit(':responseReady');
   }
   if(app.state.match == "artist") {
-    var num = "a bunch of";
+  	queue = shuffle(queue);
+    var num = "some";
     var s = 's';
     if(queue.length < 30) num = "" + queue.length;
     if(queue.length === 1) s = '';
@@ -406,6 +416,7 @@ function playQueue(controller) {
   } else if(app.state.match == "playlist") {
     message = "Plex found the playlist \"" + app.state.playlistTitle + "\", which starts with \"" + queue[app.state.position]['track'] + "\", by \"" + queue[app.state.position]['artist'] + "\", from the album \"" + queue[app.state.position]['album'] + "\".";
   } else if(app.state.match == "genre") {
+  	queue = shuffle(queue);
     message = "Plex found the \"" + app.state.genre + "\" musical genre, starting with \"" + queue[app.state.position]['track'] + "\", by \"" + queue[app.state.position]['artist'] + "\", from the album \"" + queue[app.state.position]['album'] + "\".";
   } else if(app.state.match == "album") {
     message = "Plex found the album '" + queue[app.state.position]['album'] + "', from \"" + queue[app.state.position]['artist'] + "\". The album begins with \"" + queue[app.state.position]['track'] + "\".";
@@ -414,7 +425,7 @@ function playQueue(controller) {
   } else if(app.state.match == "repeat") {
     message = "Replaying \"" + queue[app.state.position]['track'] + "\".";
   } else {
-    var num = "a bunch of";
+    var num = "some";
     var s = 's';
     if(queue.length < 30) num = "" + queue.length;
     if(queue.length === 1) s = '';
