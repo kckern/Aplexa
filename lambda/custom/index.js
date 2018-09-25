@@ -172,7 +172,7 @@ var handlers = {
 		  var token = tokenGen();
 		  app.token = token;
 		saveState(this);
-		this.response.speak(message).audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, lastToken, 0);
+		this.response.speak(message).audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, null, 0);
 		this.emit(':responseReady');
 	},
 	'AMAZON.PreviousIntent': function() {
@@ -194,7 +194,7 @@ var handlers = {
 		  var token = tokenGen();
 		  app.token = token;
 		saveState(this);
-		this.response.speak(message).audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, lastToken, 0);
+		this.response.speak(message).audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, null, 0);
 		this.emit(':responseReady');
 	},
 	'AMAZON.CancelIntent': function() {
@@ -226,7 +226,7 @@ var handlers = {
 		  var lastToken = app.token;
 		  var token = tokenGen();
 		  app.token = token;
-		this.response.speak("Here's where we left off with: \"" + app.state.queue[app.state.position]['track'] + "\".").audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, lastToken, app.state.offsetInMilliseconds);
+		this.response.speak("Here's where we left off with: \"" + app.state.queue[app.state.position]['track'] + "\".").audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, null, app.state.offsetInMilliseconds);
 		this.emit(':responseReady');
 	},
 	'AMAZON.LoopOnIntent': function() {
@@ -261,7 +261,7 @@ var handlers = {
 		  var lastToken = app.token;
 		  var token = tokenGen();
 		  app.token = token;
-		this.response.speak("Shuffling the music.").audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, lastToken, 0);
+		this.response.speak("Shuffling the music.").audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, null, 0);
 		this.emit(':responseReady');
 	},
 	'AMAZON.ShuffleOffIntent': function() {
@@ -274,7 +274,7 @@ var handlers = {
 		  var lastToken = app.token;
 		  var token = tokenGen();
 		  app.token = token;
-		this.response.speak("Reverting to the orginal playlist order.").audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, lastToken, 0);
+		this.response.speak("Reverting to the orginal playlist order.").audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, null, 0);
 		this.emit(':responseReady');
 	},
 	'AMAZON.StartOverIntent': function() {
@@ -292,7 +292,7 @@ var handlers = {
 		  var lastToken = app.token;
 		  var token = tokenGen();
 		  app.token = token;
-		this.response.speak(message).audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, lastToken, 0);
+		this.response.speak(message).audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, null, 0);
 		this.emit(':responseReady');
 	},
 	'PlayCommandIssued': function() {
@@ -433,7 +433,7 @@ function playQueue(controller) {
   var token = tokenGen();
   app.token = token;
 
-  controller.response.speak(message).audioPlayerPlay('REPLACE_ALL', queue[app.state.position]['url'], token, lastToken, 0);
+  controller.response.speak(message).audioPlayerPlay('REPLACE_ALL', queue[app.state.position]['url'], token, null, 0);
   controller.emit(':responseReady');
 }
 var processSearch = function(error, xmlObj) {
