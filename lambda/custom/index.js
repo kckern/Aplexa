@@ -168,8 +168,11 @@ var handlers = {
 		}
 		var message = "Next up is \"" + app.state.queue[app.state.position]['track'] + "\"" + post;
 		message = message.replace(/&/ig, "and");
+		  var lastToken = app.token;
+		  var token = tokenGen();
+		  app.token = token;
 		saveState(this);
-		this.response.speak(message).audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], app.state.queue[app.state.position]['url'], null, 0);
+		this.response.speak(message).audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, lastToken, 0);
 		this.emit(':responseReady');
 	},
 	'AMAZON.PreviousIntent': function() {
@@ -187,8 +190,11 @@ var handlers = {
 		}
 		var message = "Back to \"" + app.state.queue[app.state.position]['track'] + "\"" + post;
 		message = message.replace(/&/ig, "and");
+		  var lastToken = app.token;
+		  var token = tokenGen();
+		  app.token = token;
 		saveState(this);
-		this.response.speak(message).audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], app.state.queue[app.state.position]['url'], null, 0);
+		this.response.speak(message).audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, lastToken, 0);
 		this.emit(':responseReady');
 	},
 	'AMAZON.CancelIntent': function() {
@@ -217,7 +223,10 @@ var handlers = {
 	'AMAZON.ResumeIntent': function() {
 		 if(needsLoadConfig(this)) return loadConfigs(this, "AMAZON.ResumeIntent");
 		if(needsLoadState(this)) return loadState(this, "AMAZON.ResumeIntent");
-		this.response.speak("Here's where we left off with: \"" + app.state.queue[app.state.position]['track'] + "\".").audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], app.state.queue[app.state.position]['url'], null, app.state.offsetInMilliseconds);
+		  var lastToken = app.token;
+		  var token = tokenGen();
+		  app.token = token;
+		this.response.speak("Here's where we left off with: \"" + app.state.queue[app.state.position]['track'] + "\".").audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, lastToken, app.state.offsetInMilliseconds);
 		this.emit(':responseReady');
 	},
 	'AMAZON.LoopOnIntent': function() {
@@ -249,7 +258,10 @@ var handlers = {
 		app.state.queue = shuffle(app.state.queue);
 		app.state.position = 0;
 		saveState(this);
-		this.response.speak("Shuffling the music.").audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], app.state.queue[app.state.position]['url'], null, 0);
+		  var lastToken = app.token;
+		  var token = tokenGen();
+		  app.token = token;
+		this.response.speak("Shuffling the music.").audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, lastToken, 0);
 		this.emit(':responseReady');
 	},
 	'AMAZON.ShuffleOffIntent': function() {
@@ -259,7 +271,10 @@ var handlers = {
 		app.state.queue = app.state.pre_queue.slice(0);
 		app.state.position = 0;
 		saveState(this);
-		this.response.speak("Reverting to the orginal playlist order.").audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], app.state.queue[app.state.position]['url'], null, 0);
+		  var lastToken = app.token;
+		  var token = tokenGen();
+		  app.token = token;
+		this.response.speak("Reverting to the orginal playlist order.").audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, lastToken, 0);
 		this.emit(':responseReady');
 	},
 	'AMAZON.StartOverIntent': function() {
@@ -274,7 +289,10 @@ var handlers = {
 		var message = "Starting over with \"" + app.state.queue[app.state.position]['track'] + "\"" + post;
 		message = message.replace(/&/ig, "and");
 		saveState(this);
-		this.response.speak(message).audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], app.state.queue[app.state.position]['url'], null, 0);
+		  var lastToken = app.token;
+		  var token = tokenGen();
+		  app.token = token;
+		this.response.speak(message).audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, lastToken, 0);
 		this.emit(':responseReady');
 	},
 	'PlayCommandIssued': function() {
