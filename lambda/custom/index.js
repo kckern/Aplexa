@@ -35,10 +35,16 @@ app.state = {
 	offsetInMilliseconds: 0,
 	genre: null,
 	idle: false,
+	token: null,
 	playlistTitle: null
 };
 app.defaultstate = Object.assign({}, app.state);
 
+
+function tokenGen()
+{
+	return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+}
 
 function log(message,controller)
 {
@@ -314,7 +320,13 @@ var audioEventHandlers = {
 		else
 		{
 
-		var tken = app.state.queue[app.state.position]['url'].replace(/[^A-z0-9]/g,"").split("").reverse().join("").toUpperCase().substr(0,30);
+
+		  var lastToken = app.token;
+		  var token = tokenGen();
+		  app.token = token;
+
+
+
 		if(needsLoadState(null,this.event.context.System.user.accessToken)) return plexAppState().find(this.event.context.System.user.accessToken).then(function(result) {
 			if(result === undefined) {
 				this.response.speak("Could not load the app state. ");
@@ -331,7 +343,7 @@ var audioEventHandlers = {
 				userID: this.event.context.System.user.accessToken,
 				Data: JSON.stringify(app.state)
 			});
-			this.response.audioPlayerPlay('ENQUEUE', app.state.queue[app.state.position]['url'], tken, null, 0);
+			this.response.audioPlayerPlay('ENQUEUE', app.state.queue[app.state.position]['url'], token, lastToken, 0);
 			this.emit(':responseReady');
 		}.bind(this));
 		if(app.state.loop === false) app.state.position++;
@@ -344,7 +356,7 @@ var audioEventHandlers = {
 			Data: JSON.stringify(app.state)
 		});
 		log(app.state.queue[app.state.position]['track']+": "+app.state.queue[app.state.position]['url'],null);
-		this.response.audioPlayerPlay('ENQUEUE', app.state.queue[app.state.position]['url'], tken, null, 0);
+		this.response.audioPlayerPlay('ENQUEUE', app.state.queue[app.state.position]['url'], token, lastToken, 0);
 		this.emit(':responseReady');
 		}
 	},
@@ -397,7 +409,13 @@ function playQueue(controller) {
 
   message = message.replace(/&/ig, "and");
   saveState(controller);
-  controller.response.speak(message).audioPlayerPlay('REPLACE_ALL', queue[app.state.position]['url'], queue[app.state.position]['url'], null, 0);
+
+
+  var lastToken = app.token;
+  var token = tokenGen();
+  app.token = token;
+
+  controller.response.speak(message).audioPlayerPlay('REPLACE_ALL', queue[app.state.position]['url'], token, lastToken, 0);
   controller.emit(':responseReady');
 }
 var processSearch = function(error, xmlObj) {
