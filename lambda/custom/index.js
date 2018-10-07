@@ -373,7 +373,7 @@ var audioEventHandlers = {
 			userID: this.event.context.System.user.accessToken,
 			Data: JSON.stringify(app.state)
 		});
-		log(app.state.queue[app.state.position]['track']+": "+app.state.queue[app.state.position]['url'],null);
+		log("Enqueue: "+app.state.queue[app.state.position]['track']+": "+app.state.queue[app.state.position]['url'],null);
 		this.response.audioPlayerPlay('ENQUEUE', app.state.queue[app.state.position]['url'], token, lastToken, 0);
 		this.emit(':responseReady');
 		}
@@ -465,8 +465,8 @@ var processSearch = function(error, xmlObj) {
     if(item.$.type === "artist" && parseInt(item.$.size, 0) > 0) cat_matches["artist"] = item.Directory[0].$.key.replace(/[^0-9]+/g, '');
     if(item.$.type === "album" && parseInt(item.$.size, 0) > 0) cat_matches["album"] = item.Directory[0].$.key.replace(/[^0-9]+/g, '');
   }
-  if('genre' in cat_matches) return loadGenre(this, cat_matches.genre);
   if('playlist' in cat_matches) return loadPlaylist(this, cat_matches.playlist);
+  if('genre' in cat_matches) return loadGenre(this, cat_matches.genre);
   if('artist' in cat_matches) return loadArtist(this, cat_matches.artist);
   if('album' in cat_matches) return loadAlbum(this, cat_matches.album);
   if(results.length === 0) {
