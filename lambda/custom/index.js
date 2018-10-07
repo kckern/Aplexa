@@ -453,12 +453,6 @@ var processSearch = function(error, xmlObj) {
   var results = [];
   var cat_matches = {};
   for(const item of xmlObj.MediaContainer.Hub) {
-
-
-
-	console.log("=== ITEM");
-	console.log(item);
-
     if(item.$.type === "track") {
       app.state.match = "tracks";
       results = gatherTracks(item.Track);
@@ -472,9 +466,8 @@ var processSearch = function(error, xmlObj) {
     if(item.$.type === "album" && parseInt(item.$.size, 0) > 0) cat_matches["album"] = item.Directory[0].$.key.replace(/[^0-9]+/g, '');
   }
 
-	console.log("=== CAT MATCHES");
-	console.log(cat_matches);
 
+  
   if('playlist' in cat_matches) return loadPlaylist(this, cat_matches.playlist);
   if('genre' in cat_matches) return loadGenre(this, cat_matches.genre);
   if('artist' in cat_matches) return loadArtist(this, cat_matches.artist);
