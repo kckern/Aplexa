@@ -212,6 +212,7 @@ var handlers = {
 	},
 	'AMAZON.PauseIntent': function() {
 		if(needsLoadState(this)) return loadState(this, "AMAZON.PauseIntent");
+		app.state.position--;
 		app.state.offsetInMilliseconds = this.event.context.AudioPlayer.offsetInMilliseconds;
 		saveState(this);
 		this.response.audioPlayerStop();
