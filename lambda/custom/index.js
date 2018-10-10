@@ -157,7 +157,7 @@ var handlers = {
 		 if(needsLoadConfig(this)) return loadConfigs(this, "AMAZON.NextIntent");
 		if(needsLoadState(this)) return loadState(this, "AMAZON.NextIntent");
 		log("NextIntent ("+this.event.context.AudioPlayer.offsetInMilliseconds+") ",null);
-		app.state.position++;
+		//app.state.position++;
 		if(typeof app.state.queue[app.state.position] === "undefined") {
 			this.emit('AMAZON.StartOverIntent');
 			return false;
@@ -183,6 +183,7 @@ var handlers = {
 			this.emit(':responseReady');
 			return false;
 		}
+		app.state.position--;
 		app.state.position--;
 		var post = "."
 		if(app.state.match !== "artist" && app.state.match !== "album") {
