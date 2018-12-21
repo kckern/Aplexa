@@ -172,7 +172,7 @@ var handlers = {
 		  var token = tokenGen();
 		  app.token = token;
 		saveState(this);
-		this.response.speak(message).audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, null, 0);
+		this.response.speak(message).audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, null, 0).audioPlayerPlay('ENQUEUE', app.state.queue[app.state.position+1]['url'], null, token, 0);
 		this.emit(':responseReady');
 	},
 	'AMAZON.PreviousIntent': function() {
@@ -195,7 +195,7 @@ var handlers = {
 		  var token = tokenGen();
 		  app.token = token;
 		saveState(this);
-		this.response.speak(message).audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, null, 0);
+		this.response.speak(message).audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, null, 0).audioPlayerPlay('ENQUEUE', app.state.queue[app.state.position+1]['url'], null, token, 0);
 		this.emit(':responseReady');
 	},
 	'AMAZON.CancelIntent': function() {
@@ -263,7 +263,7 @@ var handlers = {
 		  var lastToken = app.token;
 		  var token = tokenGen();
 		  app.token = token;
-		this.response.speak("Shuffling the music.").audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, null, 0);
+		this.response.speak("Shuffling the music.").audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, null, 0).audioPlayerPlay('ENQUEUE', app.state.queue[app.state.position+1]['url'], null, token, 0);
 		this.emit(':responseReady');
 	},
 	'AMAZON.ShuffleOffIntent': function() {
@@ -276,7 +276,7 @@ var handlers = {
 		  var lastToken = app.token;
 		  var token = tokenGen();
 		  app.token = token;
-		this.response.speak("Reverting to the orginal playlist order.").audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, null, 0);
+		this.response.speak("Reverting to the orginal playlist order.").audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, null, 0).audioPlayerPlay('ENQUEUE', app.state.queue[app.state.position+1]['url'], null, token, 0);
 		this.emit(':responseReady');
 	},
 	'AMAZON.StartOverIntent': function() {
@@ -294,7 +294,7 @@ var handlers = {
 		  var lastToken = app.token;
 		  var token = tokenGen();
 		  app.token = token;
-		this.response.speak(message).audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, null, 0);
+		this.response.speak(message).audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, null, 0).audioPlayerPlay('ENQUEUE', app.state.queue[app.state.position+1]['url'], null, token, 0);
 		this.emit(':responseReady');
 	},
 	'PlayCommandIssued': function() {
@@ -363,7 +363,7 @@ var audioEventHandlers = {
 				userID: this.event.context.System.user.accessToken,
 				Data: JSON.stringify(app.state)
 			});
-			this.response.audioPlayerPlay('ENQUEUE', app.state.queue[app.state.position]['url'], token, lastToken, 0);
+			this.response.audioPlayerClearQueue('CLEAR_ENQUEUED').audioPlayerPlay('ENQUEUE', app.state.queue[app.state.position]['url'], token, lastToken, 0);
 			this.emit(':responseReady');
 		}.bind(this));
 		if(app.state.loop === false) app.state.position++;
@@ -376,7 +376,7 @@ var audioEventHandlers = {
 			Data: JSON.stringify(app.state)
 		});
 		log("Enqueue: "+app.state.queue[app.state.position]['track']+": "+app.state.queue[app.state.position]['url'],null);
-		this.response.audioPlayerPlay('ENQUEUE', app.state.queue[app.state.position]['url'], token, lastToken, 0);
+		this.response.audioPlayerClearQueue('CLEAR_ENQUEUED').audioPlayerPlay('ENQUEUE', app.state.queue[app.state.position]['url'], token, lastToken, 0);
 		this.emit(':responseReady');
 		}
 	},
