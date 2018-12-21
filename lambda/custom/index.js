@@ -310,7 +310,7 @@ var audioEventHandlers = {
 		this.emit(':responseReady');
 	},
 	'PlaybackFinished': function() {
-		log("PlaybackFinished ("+this.event.context.AudioPlayer.offsetInMilliseconds+") ",null);
+		log("PlaybackFinished  ("+this.event.context.AudioPlayer.offsetInMilliseconds+") ",null);
 		this.response.speak("Playback Finished");
 		this.emit(':responseReady');
 	},
@@ -331,15 +331,9 @@ var audioEventHandlers = {
 	},
 	'PlaybackNearlyFinished': function() {
 
-		if(this.event.context.AudioPlayer.offsetInMilliseconds<3000 && false) {
 
-		log("PlaybackNearlyFinished Failed ("+this.event.context.AudioPlayer.offsetInMilliseconds+") ",null);
-			return false;
-			
-		}
-		else
-		{
 
+		log("PlaybackNearlyFinished ("+this.event.context.AudioPlayer.offsetInMilliseconds+") ",null);
 
 		  var lastToken = app.token;
 		  var token = tokenGen();
@@ -375,10 +369,10 @@ var audioEventHandlers = {
 			userID: this.event.context.System.user.accessToken,
 			Data: JSON.stringify(app.state)
 		});
-		log("Enqueue: "+app.state.queue[app.state.position]['track']+": "+app.state.queue[app.state.position]['url'],null);
+		log("Enqueue #"+app.state.position+" (offset:"+this.event.context.AudioPlayer.offsetInMilliseconds+"): "+app.state.queue[app.state.position]['track']+": "+app.state.queue[app.state.position]['url'],null);
 		this.response.audioPlayerPlay('ENQUEUE', app.state.queue[app.state.position]['url'], token, lastToken, 0);
 		this.emit(':responseReady');
-		}
+		
 	},
 	'PlaybackFailed': function() {
 		this.response.speak("Playback Failed");
@@ -445,6 +439,9 @@ function playQueue(controller) {
   var lastToken = app.token;
   var token = tokenGen();
   app.token = token;
+
+
+	log("playQueue",null);
 
   controller.response.speak(message).audioPlayerPlay('REPLACE_ALL', queue[app.state.position]['url'], token, null, 0);
   controller.emit(':responseReady');
