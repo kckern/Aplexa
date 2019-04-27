@@ -35,16 +35,10 @@ app.state = {
 	offsetInMilliseconds: 0,
 	genre: null,
 	idle: false,
-	token: null,
 	playlistTitle: null
 };
 app.defaultstate = Object.assign({}, app.state);
 
-
-function tokenGen()
-{
-	return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-}
 
 function log(message,controller)
 {
@@ -157,7 +151,7 @@ var handlers = {
 		 if(needsLoadConfig(this)) return loadConfigs(this, "AMAZON.NextIntent");
 		if(needsLoadState(this)) return loadState(this, "AMAZON.NextIntent");
 		log("NextIntent ("+this.event.context.AudioPlayer.offsetInMilliseconds+") ",null);
-		//app.state.position++;
+		app.state.position++;
 		if(typeof app.state.queue[app.state.position] === "undefined") {
 			this.emit('AMAZON.StartOverIntent');
 			return false;
@@ -168,11 +162,8 @@ var handlers = {
 		}
 		var message = "Next up is \"" + app.state.queue[app.state.position]['track'] + "\"" + post;
 		message = message.replace(/&/ig, "and");
-		  var lastToken = app.token;
-		  var token = tokenGen();
-		  app.token = token;
 		saveState(this);
-		this.response.speak(message).audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, null, 0);
+		this.response.speak(message).audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], app.state.queue[app.state.position]['url'], null, 0);
 		this.emit(':responseReady');
 	},
 	'AMAZON.PreviousIntent': function() {
@@ -184,18 +175,14 @@ var handlers = {
 			return false;
 		}
 		app.state.position--;
-		app.state.position--;
 		var post = "."
 		if(app.state.match !== "artist" && app.state.match !== "album") {
 			post = ", by \"" + app.state.queue[app.state.position]['artist'] + "\", from the album \"" + app.state.queue[app.state.position]['album'] + "\".";
 		}
 		var message = "Back to \"" + app.state.queue[app.state.position]['track'] + "\"" + post;
 		message = message.replace(/&/ig, "and");
-		  var lastToken = app.token;
-		  var token = tokenGen();
-		  app.token = token;
 		saveState(this);
-		this.response.speak(message).audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, null, 0);
+		this.response.speak(message).audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], app.state.queue[app.state.position]['url'], null, 0);
 		this.emit(':responseReady');
 	},
 	'AMAZON.CancelIntent': function() {
@@ -213,7 +200,6 @@ var handlers = {
 	},
 	'AMAZON.PauseIntent': function() {
 		if(needsLoadState(this)) return loadState(this, "AMAZON.PauseIntent");
-		app.state.position--;
 		app.state.offsetInMilliseconds = this.event.context.AudioPlayer.offsetInMilliseconds;
 		saveState(this);
 		this.response.audioPlayerStop();
@@ -225,10 +211,7 @@ var handlers = {
 	'AMAZON.ResumeIntent': function() {
 		 if(needsLoadConfig(this)) return loadConfigs(this, "AMAZON.ResumeIntent");
 		if(needsLoadState(this)) return loadState(this, "AMAZON.ResumeIntent");
-		  var lastToken = app.token;
-		  var token = tokenGen();
-		  app.token = token;
-		this.response.speak("Here's where we left off with: \"" + app.state.queue[app.state.position]['track'] + "\".").audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, null, app.state.offsetInMilliseconds);
+		this.response.speak("Here's where we left off with: \"" + app.state.queue[app.state.position]['track'] + "\".").audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], app.state.queue[app.state.position]['url'], null, app.state.offsetInMilliseconds);
 		this.emit(':responseReady');
 	},
 	'AMAZON.LoopOnIntent': function() {
@@ -260,10 +243,7 @@ var handlers = {
 		app.state.queue = shuffle(app.state.queue);
 		app.state.position = 0;
 		saveState(this);
-		  var lastToken = app.token;
-		  var token = tokenGen();
-		  app.token = token;
-		this.response.speak("Shuffling the music.").audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, null, 0);
+		this.response.speak("Shuffling the music.").audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], app.state.queue[app.state.position]['url'], null, 0);
 		this.emit(':responseReady');
 	},
 	'AMAZON.ShuffleOffIntent': function() {
@@ -273,10 +253,7 @@ var handlers = {
 		app.state.queue = app.state.pre_queue.slice(0);
 		app.state.position = 0;
 		saveState(this);
-		  var lastToken = app.token;
-		  var token = tokenGen();
-		  app.token = token;
-		this.response.speak("Reverting to the orginal playlist order.").audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, null, 0);
+		this.response.speak("Reverting to the orginal playlist order.").audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], app.state.queue[app.state.position]['url'], null, 0);
 		this.emit(':responseReady');
 	},
 	'AMAZON.StartOverIntent': function() {
@@ -291,10 +268,7 @@ var handlers = {
 		var message = "Starting over with \"" + app.state.queue[app.state.position]['track'] + "\"" + post;
 		message = message.replace(/&/ig, "and");
 		saveState(this);
-		  var lastToken = app.token;
-		  var token = tokenGen();
-		  app.token = token;
-		this.response.speak(message).audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], token, null, 0);
+		this.response.speak(message).audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], app.state.queue[app.state.position]['url'], null, 0);
 		this.emit(':responseReady');
 	},
 	'PlayCommandIssued': function() {
@@ -310,7 +284,7 @@ var audioEventHandlers = {
 		this.emit(':responseReady');
 	},
 	'PlaybackFinished': function() {
-		log("PlaybackFinished  ("+this.event.context.AudioPlayer.offsetInMilliseconds+") ",null);
+		log("PlaybackFinished ("+this.event.context.AudioPlayer.offsetInMilliseconds+") ",null);
 		this.response.speak("Playback Finished");
 		this.emit(':responseReady');
 	},
@@ -331,15 +305,16 @@ var audioEventHandlers = {
 	},
 	'PlaybackNearlyFinished': function() {
 
-
-
 		log("PlaybackNearlyFinished ("+this.event.context.AudioPlayer.offsetInMilliseconds+") ",null);
+		if(this.event.context.AudioPlayer.offsetInMilliseconds<3000) {
 
-		  var lastToken = app.token;
-		  var token = tokenGen();
-		  app.token = token;
-
-
+			log(" !!! Force Play Stream Again",null);
+			this.response.audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], app.state.queue[app.state.position]['url'], null, 0);
+			this.emit(':responseReady');
+			
+		}
+		else
+		{
 
 		if(needsLoadState(null,this.event.context.System.user.accessToken)) return plexAppState().find(this.event.context.System.user.accessToken).then(function(result) {
 			if(result === undefined) {
@@ -357,7 +332,7 @@ var audioEventHandlers = {
 				userID: this.event.context.System.user.accessToken,
 				Data: JSON.stringify(app.state)
 			});
-			this.response.audioPlayerPlay('ENQUEUE', app.state.queue[app.state.position]['url'], token, lastToken, 0);
+			this.response.audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], app.state.queue[app.state.position]['url'], null, 0);
 			this.emit(':responseReady');
 		}.bind(this));
 		if(app.state.loop === false) app.state.position++;
@@ -369,10 +344,10 @@ var audioEventHandlers = {
 			userID: this.event.context.System.user.accessToken,
 			Data: JSON.stringify(app.state)
 		});
-		log("Enqueue #"+app.state.position+" (offset:"+this.event.context.AudioPlayer.offsetInMilliseconds+"): "+app.state.queue[app.state.position]['track']+": "+app.state.queue[app.state.position]['url'],null);
-		this.response.audioPlayerPlay('ENQUEUE', app.state.queue[app.state.position]['url'], token, lastToken, 0);
+		log(app.state.queue[app.state.position]['track']+": "+app.state.queue[app.state.position]['url'],null);
+		this.response.audioPlayerPlay('REPLACE_ALL', app.state.queue[app.state.position]['url'], app.state.queue[app.state.position]['url'], null, 0);
 		this.emit(':responseReady');
-		
+		}
 	},
 	'PlaybackFailed': function() {
 		this.response.speak("Playback Failed");
@@ -380,16 +355,7 @@ var audioEventHandlers = {
 		this.emit(':responseReady');
 	}
 }
-function shuffle(a) {
-    var j, x, i;
-    for (i = a.length - 1; i > 0; i--) {
-        j = Math.floor(Math.random() * (i + 1));
-        x = a[i];
-        a[i] = a[j];
-        a[j] = x;
-    }
-    return a;
-}
+
 
 
 function playQueue(controller) {
@@ -403,8 +369,7 @@ function playQueue(controller) {
     controller.emit(':responseReady');
   }
   if(app.state.match == "artist") {
-  	queue = shuffle(queue);
-    var num = "some";
+    var num = "a bunch of";
     var s = 's';
     if(queue.length < 30) num = "" + queue.length;
     if(queue.length === 1) s = '';
@@ -412,7 +377,6 @@ function playQueue(controller) {
   } else if(app.state.match == "playlist") {
     message = "Plex found the playlist \"" + app.state.playlistTitle + "\", which starts with \"" + queue[app.state.position]['track'] + "\", by \"" + queue[app.state.position]['artist'] + "\", from the album \"" + queue[app.state.position]['album'] + "\".";
   } else if(app.state.match == "genre") {
-  	queue = shuffle(queue);
     message = "Plex found the \"" + app.state.genre + "\" musical genre, starting with \"" + queue[app.state.position]['track'] + "\", by \"" + queue[app.state.position]['artist'] + "\", from the album \"" + queue[app.state.position]['album'] + "\".";
   } else if(app.state.match == "album") {
     message = "Plex found the album '" + queue[app.state.position]['album'] + "', from \"" + queue[app.state.position]['artist'] + "\". The album begins with \"" + queue[app.state.position]['track'] + "\".";
@@ -421,7 +385,7 @@ function playQueue(controller) {
   } else if(app.state.match == "repeat") {
     message = "Replaying \"" + queue[app.state.position]['track'] + "\".";
   } else {
-    var num = "some";
+    var num = "a bunch of";
     var s = 's';
     if(queue.length < 30) num = "" + queue.length;
     if(queue.length === 1) s = '';
@@ -434,16 +398,7 @@ function playQueue(controller) {
 
   message = message.replace(/&/ig, "and");
   saveState(controller);
-
-
-  var lastToken = app.token;
-  var token = tokenGen();
-  app.token = token;
-
-
-	log("playQueue",null);
-
-  controller.response.speak(message).audioPlayerPlay('REPLACE_ALL', queue[app.state.position]['url'], token, null, 0);
+  controller.response.speak(message).audioPlayerPlay('REPLACE_ALL', queue[app.state.position]['url'], queue[app.state.position]['url'], null, 0);
   controller.emit(':responseReady');
 }
 var processSearch = function(error, xmlObj) {
@@ -464,11 +419,8 @@ var processSearch = function(error, xmlObj) {
     if(item.$.type === "artist" && parseInt(item.$.size, 0) > 0) cat_matches["artist"] = item.Directory[0].$.key.replace(/[^0-9]+/g, '');
     if(item.$.type === "album" && parseInt(item.$.size, 0) > 0) cat_matches["album"] = item.Directory[0].$.key.replace(/[^0-9]+/g, '');
   }
-
-
-  
-  if('playlist' in cat_matches) return loadPlaylist(this, cat_matches.playlist);
   if('genre' in cat_matches) return loadGenre(this, cat_matches.genre);
+  if('playlist' in cat_matches) return loadPlaylist(this, cat_matches.playlist);
   if('artist' in cat_matches) return loadArtist(this, cat_matches.artist);
   if('album' in cat_matches) return loadAlbum(this, cat_matches.album);
   if(results.length === 0) {
@@ -602,7 +554,7 @@ function loadConfigs(controller, next ,loadStateToo) {
 exports.handler = (event, context, callback) => {
   var alexa = Alexa.handler(event, context, callback);
   alexa.registerHandlers(handlers, audioEventHandlers);
-  alexa.appId = 'amzn1.ask.skill.549fdcb5-c2a5-40b8-84a5-54062e84da1f';
+  alexa.appId = 'amzn1.ask.skill.40f6df28-6fd9-4945-a1f5-50f09b5afbd9';
   alexa.execute();
 };
 //Helper FUnctions

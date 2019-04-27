@@ -34,7 +34,11 @@
             "alexaUsage": [
               "custom/default"
             ],
+<<<<<<< HEAD
             "revisionId": "36daff7e-9ae8-495d-8d97-545d69cc2fb0"
+=======
+            "revisionId": "8fae1ba9-2493-414e-9351-9afa8bd96e86"
+>>>>>>> parent of e261a9e... Build 24: http://jenkins.kckern.net/job/Aplexa/24/console
           }
         ]
       }
