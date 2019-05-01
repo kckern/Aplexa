@@ -20,10 +20,10 @@
         },
         "interactionModel": {
           "en-GB": {
-            "eTag": "d612652525d666ce55fd0a8e846db0cd"
+            "eTag": "24e89674c741f1fdb38a60f0d40bc45d"
           },
           "en-US": {
-            "eTag": "78054c25516ed687336f0d1c666b6549"
+            "eTag": "e74793261c5afe47a14e0c985991be4b"
           }
         },
         "lambda": [
@@ -34,11 +34,7 @@
             "alexaUsage": [
               "custom/default"
             ],
-<<<<<<< HEAD
-            "revisionId": "36daff7e-9ae8-495d-8d97-545d69cc2fb0"
-=======
-            "revisionId": "8fae1ba9-2493-414e-9351-9afa8bd96e86"
->>>>>>> parent of e261a9e... Build 24: http://jenkins.kckern.net/job/Aplexa/24/console
+            "revisionId": "b9e8efa6-0e5a-4dd6-8541-a70b06fbc5a4"
           }
         ]
       }
